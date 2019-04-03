@@ -36,10 +36,22 @@ def speak():
        except:
             print("sorry could not recognize your voice")
 
+def sendmessage(text):
+            
+            mail = smtplib.SMTP('smtp.gmail.com',587)
+            mail.ehlo() 
+            mail.starttls()
+            SENDER='krishnadevdemo@gmail.com'
+            PASSWORD='XXXXXXXXXX'
+            RECEIVER='1605442@kiit.ac.in'
+            mail.login(SENDER,PASSWORD)
+            
+            mail.sendmail(SENDER,RECEIVER,text)
+            mail.close()
+            print("Thank You !")
 
 
-
-def tts(time,lang):
+def listen(time,lang):
     file=gTTS(text=text,lang=lang)
     filename='final_temp.mp3'
     file.save(filename)
@@ -50,15 +62,17 @@ def tts(time,lang):
     os.remove(filename)
 
 
-tts(time,lang)
+listen(time,lang)
 
 text="Do you want to continue"
 print(text)
-tts(time,lang)
+listen(time,lang)
 text=speak()
 if(text=='yes'):
     print("Say your new message :")
     speak()
+    listen(text,lang)
+    sendmessage(text)
 elif(text=='no'):
     print("thank you")
     
